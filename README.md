@@ -3,7 +3,7 @@ Simple python setup for automating login, client/report creation, and data impor
 
 ## Requirements
 
-* Python3+ (Tested with Python 3.8)
+* Python3.5+ (Tested with Python 3.8)
 * pip
 * pipenv
 
