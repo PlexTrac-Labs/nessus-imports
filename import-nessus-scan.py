@@ -186,6 +186,7 @@ if __name__ == '__main__':
         path_to_nessus_file = input(
             'Please provide a path to the Nessus XML export you would like to upload to PlexTrac\n'
         )
+        print('file input requested')
         base_url = f'{hostname}/api/v1'
         client_id = None
         report_id = None
@@ -194,19 +195,23 @@ if __name__ == '__main__':
             'username': username,
             'password': password
         }
-
+        print('attempting to login')
         # perform authentication
         authorization_header = auth_request(auth_data, base_url)
 
         # if authenticated
         if authorization_header is not None:
+            print('got token, login successful')
+            print('attempting client setup')
             # get client list and prompt user for the client they'd like to use
             client_id = setup_client(base_url, authorization_header)
 
             if client_id is not None:
+                print('got client, loading nessus file')
                 nessus_data = load_nessus_file(path_to_nessus_file)
-
+                print('nessus file loaded')
                 if report_id is None:
+                    print('performing report setup')
                     report_id = setup_report(
                         base_url,
                         authorization_header,
@@ -216,6 +221,7 @@ if __name__ == '__main__':
 
                 if report_id is not None:
                     if nessus_data is not None:
+                        print('importing data')
                         import_nessus_file(base_url, authorization_header, nessus_data, client_id, report_id)
     except Exception as e:
         print(f"Error importing data: {e}")
